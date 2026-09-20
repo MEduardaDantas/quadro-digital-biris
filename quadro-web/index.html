@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meu Quadro Biris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='14' fill='%23B98A3D'/%3E%3Crect x='15' y='15' width='34' height='34' rx='8' fill='%2314181C'/%3E%3Ccircle cx='26' cy='29' r='3.4' fill='%23EDE7DC'/%3E%3Ccircle cx='38' cy='29' r='3.4' fill='%23EDE7DC'/%3E%3Cpath d='M24 37q8 7 16 0' stroke='%23EDE7DC' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <nav class="top-nav" id="top-nav" hidden>
+    <div class="top-nav-inner">
+      <div class="top-nav-brand">
+        <svg class="mascot-icon" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="6" y="6" width="52" height="52" rx="14" fill="#B98A3D"/><rect x="15" y="15" width="34" height="34" rx="8" fill="#14181C"/><circle cx="26" cy="29" r="3.4" fill="#EDE7DC"/><circle cx="38" cy="29" r="3.4" fill="#EDE7DC"/><path d="M24 37q8 7 16 0" stroke="#EDE7DC" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+        <span class="brand small">Meu Quadro Biris</span>
+      </div>
+      <div class="top-nav-tabs" role="tablist">
+        <button type="button" class="nav-tab is-active" data-page="editor">Editor</button>
+        <button type="button" class="nav-tab" data-page="album">Álbum <span class="nav-tab-badge" id="nav-album-count">0</span></button>
+      </div>
+      <div class="top-nav-actions">
+        <span class="status-pill status-pill--device" id="device-pill">
+          <span class="status-dot" id="device-dot"></span>
+          <span id="device-pill-text">verificando…</span>
+        </span>
+        <button id="btn-settings" class="btn btn-ghost btn-icon-only" title="Configurações" aria-label="Configurações">⚙</button>
+        <button id="btn-logout" class="btn btn-ghost btn-small">Sair</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-sparkles" aria-hidden="true">
+    <svg class="page-sparkle" style="top:18%;right:6%;" width="18" height="18" viewBox="0 0 24 24"><path fill="#B98A3D" d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2Z"/></svg>
+    <svg class="page-sparkle" style="top:55%;right:3%;animation-delay:1.2s;" width="14" height="14" viewBox="0 0 24 24"><path fill="#EAE2D0" d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2Z"/></svg>
+    <svg class="page-sparkle" style="bottom:12%;right:10%;animation-delay:2.1s;" width="22" height="22" viewBox="0 0 24 24"><path fill="#B98A3D" d="m12 21-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A6.01 6.01 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.19L12 21Z"/></svg>
+    <svg class="page-sparkle" style="top:30%;left:4%;animation-delay:0.6s;" width="16" height="16" viewBox="0 0 24 24"><path fill="#EAE2D0" d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2Z"/></svg>
+    <svg class="page-sparkle" style="bottom:20%;left:5%;animation-delay:1.7s;" width="20" height="20" viewBox="0 0 24 24"><path fill="#B98A3D" d="m12 21-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A6.01 6.01 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.19L12 21Z"/></svg>
+  </div>
+
+  <div id="app">
+
+    <section id="view-loading" class="view" hidden>
+      <div class="stack center"><p class="muted">Localizando quadro…</p></div>
+    </section>
+
+    <section id="view-not-found" class="view" hidden>
+      <div class="stack center">
+        <svg class="mascot-icon mascot-icon-lg" viewBox="0 0 64 64" width="44" height="44" aria-hidden="true"><rect x="6" y="6" width="52" height="52" rx="14" fill="#B98A3D"/><rect x="15" y="15" width="34" height="34" rx="8" fill="#14181C"/><circle cx="26" cy="29" r="3.4" fill="#EDE7DC"/><circle cx="38" cy="29" r="3.4" fill="#EDE7DC"/><path d="M24 37q8 7 16 0" stroke="#EDE7DC" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+        <h1 class="brand">Meu Quadro Biris</h1>
+        <p class="lede" id="not-found-title">Não encontramos nenhum quadro com este código.</p>
+        <p class="muted" id="not-found-subtitle">Verifique se o QR Code foi escaneado corretamente.</p>
+      </div>
+    </section>
+
+    <section id="view-login" class="view" hidden>
+      <div class="login-shell">
+        <div class="login-decor" aria-hidden="true">
+          <svg class="login-decor-sparkle s1" width="20" height="20" viewBox="0 0 24 24"><path fill="#B98A3D" d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2Z"/></svg>
+          <svg class="login-decor-sparkle s2" width="16" height="16" viewBox="0 0 24 24"><path fill="#EAE2D0" d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2Z"/></svg>
+          <svg class="login-decor-sparkle s3" width="14" height="14" viewBox="0 0 24 24"><path fill="#B98A3D" d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2Z"/></svg>
+          <div class="login-decor-frame">
+            <div class="login-decor-slot"></div>
+            <div class="login-decor-slot"></div>
+            <div class="login-decor-slot"></div>
+          </div>
+        </div>
+        <div class="login-form-wrap">
+          <header class="frame-header">
+            <svg class="mascot-icon mascot-icon-lg" viewBox="0 0 64 64" width="44" height="44" aria-hidden="true"><rect x="6" y="6" width="52" height="52" rx="14" fill="#B98A3D"/><rect x="15" y="15" width="34" height="34" rx="8" fill="#14181C"/><circle cx="26" cy="29" r="3.4" fill="#EDE7DC"/><circle cx="38" cy="29" r="3.4" fill="#EDE7DC"/><path d="M24 37q8 7 16 0" stroke="#EDE7DC" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+            <h1 class="brand">Meu Quadro Biris</h1>
+            <p class="frame-id muted" id="login-frame-id"></p>
+          </header>
+
+          <form id="login-form" class="panel" autocomplete="off">
+            <label class="field-label" for="login-password">Senha do quadro</label>
+            <input type="password" id="login-password" class="field-input" placeholder="••••" inputmode="numeric" required autocomplete="new-password" />
+            <p class="field-error" id="login-error" hidden></p>
+            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+          </form>
+
+          <p class="muted small">A senha fica com quem cuida deste quadro. Ela não é enviada com o QR Code.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-editor" class="view page-shell" hidden>
+      <div class="editor-grid">
+
+        <div class="editor-main">
+          <div class="status-row">
+            <span class="status-pill" id="draft-pill">Publicado</span>
+          </div>
+
+          <div class="orientation-toggle" role="group" aria-label="Orientação do quadro">
+            <button type="button" class="orientation-btn is-active" data-orientation="landscape">Horizontal</button>
+            <button type="button" class="orientation-btn" data-orientation="portrait">Vertical</button>
+          </div>
+
+          <div class="layout-toggle" role="group" aria-label="Layout das fotos" id="layout-toggle">
+            <button type="button" class="layout-btn is-active" data-layout="uniform">
+              <span class="layout-icon layout-icon-uniform"><i></i><i></i><i></i></span>
+              <span>Uniforme</span>
+            </button>
+            <button type="button" class="layout-btn" data-layout="feature">
+              <span class="layout-icon layout-icon-feature"><i></i><i></i><i></i></span>
+              <span>Destaque</span>
+            </button>
+            <button type="button" class="layout-btn" data-layout="grid">
+              <span class="layout-icon layout-icon-grid"><i></i><i></i><i></i><i></i></span>
+              <span>Grade</span>
+            </button>
+          </div>
+
+          <div class="frame-mockup-wrap">
+            <div class="frame-mockup" id="frame-mockup" aria-label="Pré-visualização do quadro"></div>
+          </div>
+          <p class="muted small hint-line" id="crop-hint" hidden>
+            <svg class="icon" viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M12 2a5 5 0 0 1 5 5v3h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v3h6V7a3 3 0 0 0-3-3Z"/></svg>
+            Arraste a foto pra posicionar, use a roda do mouse ou os botões −/+ pra dar zoom.
+          </p>
+
+          <div class="publish-bar">
+            <p class="muted small" id="draft-status">Nada alterado ainda.</p>
+            <button id="btn-preview" class="btn btn-primary btn-block" disabled>Ver prévia e publicar</button>
+          </div>
+        </div>
+
+        <aside class="editor-sidebar">
+          <div class="photo-list-header">
+            <span class="field-label section-label-icon">
+              <svg class="icon" viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M4 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17l-1.24-1.35A2 2 0 0 0 14.1 3H9.9a2 2 0 0 0-1.49.65L7.17 5H4Zm8 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"/></svg>
+              Fotos da composição
+            </span>
+            <span class="slot-label" id="photo-count-label">0 de 8</span>
+          </div>
+
+          <div class="photo-list" id="photo-list"></div>
+
+          <div class="add-photo-row">
+            <label class="btn btn-secondary file-btn" id="add-photo-btn">
+              <svg class="icon" viewBox="0 0 24 24" width="16" height="16" style="margin-right:6px;vertical-align:-3px;"><path fill="currentColor" d="M12 4a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2h-6v6a1 1 0 1 1-2 0v-6H5a1 1 0 1 1 0-2h6V5a1 1 0 0 1 1-1Z"/></svg>
+              Adicionar foto
+              <input type="file" accept="image/jpeg,image/png,image/webp" multiple id="add-photo-input" hidden />
+            </label>
+            <button type="button" class="btn btn-secondary" id="choose-from-album-btn">
+              <svg class="icon" viewBox="0 0 24 24" width="16" height="16" style="margin-right:6px;vertical-align:-3px;"><path fill="currentColor" d="m12 21-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A6.01 6.01 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.19L12 21Z"/></svg>
+              Escolher do álbum
+            </button>
+          </div>
+
+          <p class="field-error" id="upload-error" hidden></p>
+          <p class="muted small">Arraste (no computador) ou use as setas ↑↓ pra reordenar.</p>
+        </aside>
+
+      </div>
+    </section>
+
+    <section id="view-album" class="view page-shell" hidden>
+      <div class="album-page-header">
+        <div>
+          <h1 class="brand small section-label-icon">
+            <svg class="icon" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="m12 21-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A6.01 6.01 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.19L12 21Z"/></svg>
+            Álbum
+          </h1>
+          <p class="muted small">Fotos favoritadas ficam aqui mesmo depois de saírem da composição publicada.</p>
+        </div>
+        <span class="status-pill" id="album-count-label">0 de 50</span>
+      </div>
+      <p class="field-error" id="album-error" hidden></p>
+      <div class="album-grid" id="album-grid"></div>
+    </section>
+
+    <div id="modal-confirm" class="modal-backdrop" hidden>
+      <div class="modal">
+        <h2 class="modal-title">Confirmar composição</h2>
+        <p class="muted small">É assim que o quadro vai ficar. Depois de publicar, a composição anterior deixa de existir.</p>
+        <div class="frame-mockup frame-mockup--modal" id="modal-frame-mockup"></div>
+        <p class="field-error" id="publish-error" hidden></p>
+        <div class="modal-actions">
+          <button id="btn-cancel-publish" class="btn btn-ghost btn-block">Voltar e ajustar</button>
+          <button id="btn-confirm-publish" class="btn btn-primary btn-block">Publicar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-album-picker" class="modal-backdrop" hidden>
+      <div class="modal">
+        <h2 class="modal-title">Escolher do álbum</h2>
+        <p class="muted small">Clique nas fotos que você quer colocar na composição.</p>
+        <div class="album-picker-grid" id="album-picker-grid"></div>
+        <div class="modal-actions">
+          <button id="album-picker-close" class="btn btn-ghost btn-block">Fechar</button>
+          <button id="album-picker-confirm" class="btn btn-primary btn-block" disabled>Adicionar selecionadas</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-lightbox" class="modal-backdrop" hidden>
+      <div class="lightbox">
+        <button id="lightbox-close" class="lightbox-close-btn" aria-label="Fechar">✕</button>
+        <div class="lightbox-image-wrap" id="lightbox-image-wrap">
+          <img id="lightbox-image" src="" alt="Foto do álbum" />
+        </div>
+        <div class="lightbox-actions">
+          <span class="muted small" id="lightbox-hint">Clique na foto pra ampliar</span>
+          <button id="lightbox-remove" class="btn btn-secondary btn-small">Remover do álbum</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-settings" class="modal-backdrop" hidden>
+      <div class="modal">
+        <h2 class="modal-title">Configurações</h2>
+
+        <span class="field-label">Nome do quadro</span>
+        <input type="text" id="device-name-input" class="field-input" placeholder="Ex: Quadro da Sala" style="letter-spacing:normal;" />
+
+        <span class="field-label" style="margin-top:8px;">Moldura</span>
+        <div class="moldura-picker" id="moldura-picker">
+          <button type="button" class="moldura-btn is-active" data-moldura="classica">
+            <span class="moldura-swatch moldura-swatch-classica"></span>
+            <span>Clássica</span>
+          </button>
+          <button type="button" class="moldura-btn" data-moldura="madeira">
+            <span class="moldura-swatch moldura-swatch-madeira"></span>
+            <span>Madeira</span>
+          </button>
+          <button type="button" class="moldura-btn" data-moldura="minimalista">
+            <span class="moldura-swatch moldura-swatch-minimalista"></span>
+            <span>Fina</span>
+          </button>
+          <button type="button" class="moldura-btn" data-moldura="polaroid">
+            <span class="moldura-swatch moldura-swatch-polaroid"></span>
+            <span>Polaroid</span>
+          </button>
+        </div>
+
+        <div class="device-info-block">
+          <span class="field-label">Informações do dispositivo</span>
+          <p class="muted small device-info-line">Bateria: <span id="info-battery">N/A</span></p>
+          <p class="muted small device-info-line">Armazenamento: <span id="info-storage">N/A</span></p>
+          <p class="muted small device-info-line">Última sincronização: <span id="info-last-sync">N/A</span></p>
+        </div>
+
+        <div class="modal-actions">
+          <button id="close-settings-btn" class="btn btn-ghost btn-block">Fechar</button>
+          <button id="save-settings-btn" class="btn btn-primary btn-block">Salvar</button>
+        </div>
+        <p class="muted small" id="settings-saved-note" hidden>Salvo.</p>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+
+  </div>
+
+  <script src="/config.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

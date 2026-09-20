@@ -1,0 +1,25 @@
+{
+  "name": "quadro-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "migrate": "node src/migrate.js",
+    "seed": "node src/seed.js",
+    "create-frame": "node src/create-frame.js",
+    "qr": "node src/generate-qr.js",
+    "dev": "node src/server.js",
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "multer": "^2.3.0",
+    "pg": "^8.12.0",
+    "qrcode": "^1.5.4",
+    "uuid": "^11.1.1",
+    "ws": "^8.18.0"
+  }
+}
